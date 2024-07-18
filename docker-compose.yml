@@ -10,3 +10,12 @@ services:
       - ./cand_man_api:/app
     ports:
       - "8000:8000"
+
+  cand_man_ui:
+    build:
+      context: ./cand_man_ui
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - cand_man_api
