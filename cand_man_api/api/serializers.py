@@ -16,7 +16,7 @@ class JobSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Job
-        fields = ['id', 'title', 'client']
+        fields = ['id', 'title', 'client', 'description', 'requirements']
 
 class CandidateSerializer(serializers.ModelSerializer):
     job = JobSerializer()
@@ -24,7 +24,7 @@ class CandidateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Candidate
-        fields = ['id', 'name', 'job', 'recruiter', 'status']
+        fields = ['id', 'name', 'job', 'recruiter', 'status', 'birth_date', 'years_of_experience']
 
 class MetricsSerializer(serializers.Serializer):
     open_jobs = serializers.IntegerField()
