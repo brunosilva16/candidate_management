@@ -1,10 +1,14 @@
-from django.shortcuts import render
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Client, Recruiter, Job, Candidate
-from .serializers import ClientSerializer, RecruiterSerializer, JobSerializer, CandidateSerializer, MetricsSerializer
+from .serializers import (
+    ClientSerializer, RecruiterSerializer,
+    JobReadSerializer, JobWriteSerializer,
+    CandidateReadSerializer, CandidateWriteSerializer,
+    MetricsSerializer
+)
 from .filters import CandidateFilter
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -17,13 +21,21 @@ class RecruiterViewSet(viewsets.ModelViewSet):
 
 class JobViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all()
-    serializer_class = JobSerializer
+
+    def get_serializer_class(self):
+        if self.action in ['list', 'retrieve']:
+            return JobReadSerializer
+        return JobWriteSerializer
 
 class CandidateViewSet(viewsets.ModelViewSet):
     queryset = Candidate.objects.all()
-    serializer_class = CandidateSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = CandidateFilter
+
+    def get_serializer_class(self):
+        if self.action in ['list', 'retrieve']:
+            return CandidateReadSerializer
+        return CandidateWriteSerializer
 
     @action(detail=False, methods=['get'])
     def metrics(self, request):

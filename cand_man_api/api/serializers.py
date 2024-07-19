@@ -11,17 +11,31 @@ class RecruiterSerializer(serializers.ModelSerializer):
         model = Recruiter
         fields = ['id', 'name']
 
-class JobSerializer(serializers.ModelSerializer):
+# Read serializer for Job
+class JobReadSerializer(serializers.ModelSerializer):
     client = ClientSerializer()
 
     class Meta:
         model = Job
         fields = ['id', 'title', 'client', 'description', 'requirements']
 
-class CandidateSerializer(serializers.ModelSerializer):
-    job = JobSerializer()
+# Write serializer for Job
+class JobWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Job
+        fields = ['id', 'title', 'client', 'description', 'requirements']
+
+# Read serializer for Candidate
+class CandidateReadSerializer(serializers.ModelSerializer):
+    job = JobReadSerializer()
     recruiter = RecruiterSerializer()
 
+    class Meta:
+        model = Candidate
+        fields = ['id', 'name', 'job', 'recruiter', 'status', 'birth_date', 'years_of_experience']
+
+# Write serializer for Candidate
+class CandidateWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Candidate
         fields = ['id', 'name', 'job', 'recruiter', 'status', 'birth_date', 'years_of_experience']
