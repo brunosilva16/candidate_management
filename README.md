@@ -10,19 +10,19 @@ Full Stack - Code Challenge
     docker-compose up --build
     ```
 
-2. **Apply Migrations**:
+2. **Access the Platform**:
+    - **Frontend**: [http://localhost:3000](http://localhost:3000)
+    - **Backend API**: [http://localhost:8000/api](http://localhost:8000/api)
+
+3. **Apply Migrations**:
     ```bash
     docker-compose exec cand_man_api python manage.py migrate
     ```
 
-3. **Create a Superuser**:
+4. **Create a Superuser**:
     ```bash
     docker-compose exec cand_man_api python manage.py createsuperuser
     ```
-
-4. **Access the Platform**:
-    - **Frontend**: [http://localhost:3000](http://localhost:3000)
-    - **Backend API**: [http://localhost:8000/api](http://localhost:8000/api)
 
 ### Without Docker
 
