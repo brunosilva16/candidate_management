@@ -63,7 +63,8 @@ const CandidateList = () => {
     const status = selectedStatus[id];
     api.patch(`/candidates/${id}/`, { status })
       .then(response => {
-        setCandidates(candidates.map(candidate => candidate.id === id ? response.data : candidate));
+        // Refetch the candidate list to get the updated data
+        fetchCandidates(selectedFilters);
         setSelectedStatus(prevState => {
           const newState = { ...prevState };
           delete newState[id];
@@ -76,6 +77,7 @@ const CandidateList = () => {
         setSnackbar({ open: true, message: 'Failed to update status', severity: 'error' });
       });
   };
+
 
   const clearFilters = () => {
     setSelectedFilters({ status: '', job: '', recruiter: '', client: '' });
