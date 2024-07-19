@@ -1,8 +1,84 @@
 # Candidate Management Platform
 Full Stack - Code Challenge
+
+## Running the Platform
+
+### Using Docker
+
+1. **Build and Run the Docker Containers**:
+    ```bash
+    docker-compose up --build
+    ```
+
+2. **Apply Migrations**:
+    ```bash
+    docker-compose exec cand_man_api python manage.py migrate
+    ```
+
+3. **Create a Superuser**:
+    ```bash
+    docker-compose exec cand_man_api python manage.py createsuperuser
+    ```
+
+4. **Access the Platform**:
+    - **Frontend**: [http://localhost:3000](http://localhost:3000)
+    - **Backend API**: [http://localhost:8000/api](http://localhost:8000/api)
+
+### Without Docker
+
+#### Backend
+
+1. **Navigate to the Backend Directory**:
+    ```bash
+    cd cand_man_api
+    ```
+
+2. **Install Dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3. **Apply Migrations**:
+    ```bash
+    python manage.py migrate
+    ```
+
+4. **Run the Development Server**:
+    ```bash
+    python manage.py runserver
+    ```
+
+5. **Create a Superuser (Optional)**:
+    ```bash
+    python manage.py createsuperuser
+    ```
+
+6. **Access the Backend API**:
+    - **Backend API**: [http://localhost:8000/api](http://localhost:8000/api)
+
+#### Frontend
+
+1. **Navigate to the Frontend Directory**:
+    ```bash
+    cd cand_man_ui
+    ```
+
+2. **Install Dependencies**:
+    ```bash
+    npm install
+    ```
+
+3. **Run the Development Server**:
+    ```bash
+    npm start
+    ```
+
+4. **Access the Frontend**:
+    - **Frontend**: [http://localhost:3000](http://localhost:3000)
+
 ## Overview
 
-This project implements a web-based platform for managing candidates throughout the recruitment process. It is built using Django for the backend and Django REST Framework (DRF) for creating a RESTful API. The frontend is developed using React.
+This project implements a web-based platform for managing candidates throughout the recruitment process. It is built using Django for the backend, specifically Django REST Framework (DRF) to create a RESTful API. The frontend is developed using React and Material-UI for a modern and responsive user interface.
 
 ## Main Decisions
 
@@ -19,34 +95,36 @@ This project implements a web-based platform for managing candidates throughout 
 4. **Docker for Containerization**:
     - Docker was used to containerize the application, making it easier to deploy across different environments. This ensures consistency between development and production setups.
 
-## Models
+## Backend
 
-### Client
+### Models
+
+#### Client
 Represents a client in the system.
 - **Fields**: `id`, `name`
 
-### Recruiter
+#### Recruiter
 Represents a recruiter in the system.
 - **Fields**: `id`, `name`
 
-### Job
+#### Job
 Represents a job position offered by a client.
 - **Fields**: `id`, `title`, `client`, `description`, `requirements`
 
-### Candidate
+#### Candidate
 Represents a candidate applying for a job.
 - **Fields**: `id`, `name`, `job`, `recruiter`, `status`, `birth_date`, `years_of_experience`
 
-## Endpoints
+### Endpoints
 
-### Authentication
+#### Authentication
 
 - **Obtain Token**: `POST /api/token/`
     - **Request Body**:
       ```json
       {
-        "username": "your_username",
-        "password": "your_password"
+        "username": "user1",
+        "password": "meta1234"
       }
       ```
     - **Response**:
@@ -71,7 +149,7 @@ Represents a candidate applying for a job.
       }
       ```
 
-### Clients
+#### Clients
 
 - **List Clients**: `GET /api/clients/`
 - **Create Client**: `POST /api/clients/`
@@ -85,7 +163,7 @@ Represents a candidate applying for a job.
 - **Update Client**: `PUT /api/clients/{id}/`
 - **Delete Client**: `DELETE /api/clients/{id}/`
 
-### Recruiters
+#### Recruiters
 
 - **List Recruiters**: `GET /api/recruiters/`
 - **Create Recruiter**: `POST /api/recruiters/`
@@ -99,7 +177,7 @@ Represents a candidate applying for a job.
 - **Update Recruiter**: `PUT /api/recruiters/{id}/`
 - **Delete Recruiter**: `DELETE /api/recruiters/{id}/`
 
-### Jobs
+#### Jobs
 
 - **List Jobs**: `GET /api/jobs/`
 - **Create Job**: `POST /api/jobs/`
@@ -116,7 +194,7 @@ Represents a candidate applying for a job.
 - **Update Job**: `PUT /api/jobs/{id}/`
 - **Delete Job**: `DELETE /api/jobs/{id}/`
 
-### Candidates
+#### Candidates
 
 - **List Candidates**: `GET /api/candidates/`
 - **Create Candidate**: `POST /api/candidates/`
@@ -135,7 +213,7 @@ Represents a candidate applying for a job.
 - **Update Candidate**: `PUT /api/candidates/{id}/`
 - **Delete Candidate**: `DELETE /api/candidates/{id}/`
 
-### Metrics
+#### Metrics
 
 - **Get Metrics**: `GET /api/candidates/metrics/`
     - **Response**:
@@ -148,44 +226,28 @@ Represents a candidate applying for a job.
       }
       ```
 
-## Running the Project
+## Frontend
 
-### Using Docker
+### Overview
 
-1. **Build and Run the Docker Containers**:
-    ```bash
-    sudo docker-compose up --build
-    ```
+The frontend of the Candidate Management Platform is built using React and Material-UI, providing a modern and responsive user interface. It interacts with the backend API to perform CRUD operations and display data in an organized manner.
 
-2. **Apply Migrations**:
-    ```bash
-    sudo docker-compose exec cman_api python manage.py migrate
-    ```
+### Main Components
 
-3. **Create a Superuser**:
-    ```bash
-    sudo docker-compose exec cman_api python manage.py createsuperuser
-    ```
+- **Home Page**: Features a visually appealing home page with a welcome message.
+- **Candidate List**: Displays a list of candidates with details, filtering options, expandable rows for additional information, and status update functionality.
+- **Dashboard**: Metrics such as the number of open positions, number of active candidates (in process), number of disqualified candidates, and the number of candidates hired.
 
-### Without Docker
+### Features
 
-1. **Install Dependencies**:
-    ```bash
-    pip install -r requirements.txt
-    ```
+1. **Filtering and Searching**:
+    - Dropdown filters for status, job, recruiter, and client.
+    - Clear filters button to reset all filters.
 
-2. **Apply Migrations**:
-    ```bash
-    python manage.py migrate
-    ```
+2. **Candidate Details**:
+    - Expandable rows to view additional candidate information.
+    - Age is calculated from the birth date and displayed in the details.
 
-3. **Run the Development Server**:
-    ```bash
-    python manage.py runserver
-    ```
-
-4. **Create a Superuser**:
-    ```bash
-    python manage.py createsuperuser
-    ```
-
+3. **Status Update**:
+    - Inline status update with a dropdown and an update button.
+    - Success and error notifications using Material-UI Snackbar and Alert components.
